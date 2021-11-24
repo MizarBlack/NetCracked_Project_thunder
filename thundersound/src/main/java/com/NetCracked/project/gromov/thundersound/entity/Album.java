@@ -1,35 +1,35 @@
 package com.NetCracked.project.gromov.thundersound.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
+@Table(name = "album")
 public class Album {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
-    private LocalDate realise_data;
+    @Column(name = "release_date")
+    private LocalDate release_date;
 
     public Album(String name, String description, LocalDate realise_data) {
         this.name = name;
         this.description = description;
-        this.realise_data = realise_data;
+        this.release_date = realise_data;
     }
 
     public Album() {
 
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getName() {
@@ -45,10 +45,19 @@ public class Album {
         this.description = description;
     }
     public LocalDate getRealise_data() {
-        return realise_data;
+        return release_date;
     }
     public void setRealise_data(LocalDate realise_data) {
-        this.realise_data = realise_data;
+        this.release_date = realise_data;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Album[" +
+                "id=" + id +
+                ", name='" + name +
+                ", description='" + description +
+                ", release_date=" + release_date +
+                ']';
+    }
 }

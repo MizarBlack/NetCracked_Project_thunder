@@ -1,19 +1,16 @@
 package com.NetCracked.project.gromov.thundersound.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Entity
+@Table(name = "track")
 public class Track {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private UUID id;
-    private UUID genre_id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
+    private int genre_id;
     private String name;
     private String text;
     private String file_name;
@@ -30,16 +27,16 @@ public class Track {
     public Track() {
     }
 
-    public UUID getGenre_id() {
+    public int getGenre_id() {
         return genre_id;
     }
-    public void setGenre_id(UUID genre_id) {
+    public void setGenre_id(int genre_id) {
         this.genre_id = genre_id;
     }
-    public UUID getId() {
+    public int getId() {
         return id;
     }
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getName() {

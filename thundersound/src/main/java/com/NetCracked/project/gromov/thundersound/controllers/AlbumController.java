@@ -1,64 +1,48 @@
 package com.NetCracked.project.gromov.thundersound.controllers;
 
 import com.NetCracked.project.gromov.thundersound.entity.Album;
-import com.NetCracked.project.gromov.thundersound.repository.AlbumRepository;
+import com.NetCracked.project.gromov.thundersound.serviceInterface.AlbumServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/album")
 public class AlbumController {
 
+    private final AlbumServiceInterface albumService;
+
     @Autowired
-    private AlbumRepository albumRepository;
-
-    public AlbumController(AlbumRepository albumRepository) {
-        this.albumRepository = albumRepository;
+    public AlbumController(AlbumServiceInterface albumService) {
+        this.albumService = albumService;
     }
 
-    @GetMapping("/album/")
-    public Iterable<Album> getAlbums() {
-        return albumRepository.findAll();
+    @GetMapping("")
+    public ResponseEntity<List<Album>> getAlbums(@RequestParam(required = false) String name) {
+        return albumService.findAll(name);
     }
 
-    @GetMapping("/album/{id}")
-    public Album getAlbum(@PathVariable("id") UUID id) {
-        return albumRepository.findById(id).get();
+    @GetMapping("/{id}")
+    public ResponseEntity<Album> getAlbum(@PathVariable("id") int id) {
+        return albumService.findById(id);
     }
 
-    @PostMapping("/album")
-    public Album addAlbum(@RequestBody Album album){
-        return albumRepository.save(album);
+    @PostMapping("")
+    public ResponseEntity<Album> addAlbum(@RequestBody Album album){
+        return albumService.saveAlbum(album);
     }
 
-    @PutMapping("/album/{id}")
-    public ResponseEntity<Album> updateAlbum(@PathVariable(value = "id") UUID id,
-    @RequestBody Album albumDetails ) throws FileNotFoundException {
-        Album album = albumRepository.findById(id)
-                .orElseThrow(() -> new FileNotFoundException("Album not found for this id :: " + id));
-        album.setDescription(albumDetails.getDescription());
-        album.setId(albumDetails.getId());
-        album.setName(albumDetails.getName());
-        album.setRealise_data(albumDetails.getRealise_data());
-        final Album updatedAlbum = albumRepository.save(album);
-        return ResponseEntity.ok(updatedAlbum);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Album> updateAlbum(@PathVariable(value = "id") int id, @RequestBody Album album) {
+        return albumService.updateAlbum(id, album);
     }
 
-    @DeleteMapping("/album/{id}")
-    public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") UUID id)
-            throws FileNotFoundException {
-        Album album = albumRepository.findById(id)
-                .orElseThrow(() -> new FileNotFoundException("Employee not found for this id :: " + id));
-
-        albumRepository.delete(album);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteAlbum(@PathVariable(value = "id") int id) {
+        return albumService.deleteById(id);
     }
 }

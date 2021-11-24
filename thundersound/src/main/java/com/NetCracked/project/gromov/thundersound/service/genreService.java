@@ -1,36 +1,47 @@
 package com.NetCracked.project.gromov.thundersound.service;
 
-import com.NetCracked.project.gromov.thundersound.entity.genre;
-import com.NetCracked.project.gromov.thundersound.repository.genreRepository;
+import com.NetCracked.project.gromov.thundersound.entity.Genre;
+import com.NetCracked.project.gromov.thundersound.repository.GenreRepository;
+import com.NetCracked.project.gromov.thundersound.serviceInterface.genreServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.UUID;
 
 @Service
-public class genreService {
+public class GenreService implements genreServiceInterface {
+
+    private final GenreRepository genreRepository;
 
     @Autowired
-    private final genreRepository genreRepository;
-
-    public genreService(genreRepository genreRepository) {
+    public GenreService(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
 
-    public void genre(genre genre) {
+    @Override
+    public void saveGenre(Genre genre) {
         genreRepository.save(genre);
     }
 
-    public List<genre> findAll() {
-        return (List<genre>) genreRepository.findAll();
+    @Override
+    public List<Genre> findAll() {
+        return (List<Genre>) genreRepository.findAll();
     }
 
-    public List<genre> findAllByName(String name) {
-        return genreRepository.findAllByName(name);
+    @Override
+    public Genre findById(int Id) {
+        return genreRepository.findById(Id).orElse(null);
     }
 
-    public List<genre> findAllById(UUID Id) {
-        return genreRepository.findAllById(Id);
+    @Override
+    public void deleteById(int id) {
+        genreRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateGenre(int id, Genre genre) {
+        Genre genreToBD = genreRepository.findById(id).get();
+        genreToBD.setName(genre.getName());
+        genreToBD.setDescription(genre.getDescription());
+        genreRepository.save(genreToBD);
     }
 }

@@ -1,16 +1,13 @@
 package com.NetCracked.project.gromov.thundersound.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.UUID;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
     private String nickname;
     private String login;
     private String password;
@@ -24,10 +21,10 @@ public class User {
 
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getNickname() {

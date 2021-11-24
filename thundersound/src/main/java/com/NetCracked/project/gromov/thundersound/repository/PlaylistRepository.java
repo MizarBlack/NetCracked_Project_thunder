@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.UUID;
 
-public interface PlaylistRepository extends CrudRepository<Playlist, UUID> {
-    List<Playlist> findAllByName(String name);
-    List<Playlist> findAllByUserId(UUID id);
+public interface PlaylistRepository extends CrudRepository<Playlist, Integer> {
+    List<Playlist> findByNameContaining(String name);
 }

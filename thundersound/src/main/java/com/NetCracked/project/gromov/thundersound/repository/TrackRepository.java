@@ -8,10 +8,5 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-public interface TrackRepository extends CrudRepository<Track, UUID> {
-    List<Track> findAllByName(String name);
-    List<Track> findAllByData_load(LocalDate data_load);
-    List<Track> findAllByDuration(LocalTime duration);
-    List<Track> findAllById(UUID Id);
-
+public interface TrackRepository extends CrudRepository<Track, Integer> {
 }

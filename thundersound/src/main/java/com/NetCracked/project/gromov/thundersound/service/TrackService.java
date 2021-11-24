@@ -1,47 +1,51 @@
 package com.NetCracked.project.gromov.thundersound.service;
 
-import antlr.ASTNULLType;
 import com.NetCracked.project.gromov.thundersound.entity.Track;
 import com.NetCracked.project.gromov.thundersound.repository.TrackRepository;
+import com.NetCracked.project.gromov.thundersound.serviceInterface.TrackServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
-public class TrackService {
+public class TrackService implements TrackServiceInterface {
 
-    @Autowired
     private final TrackRepository trackRepository;
 
+    @Autowired
     public TrackService(TrackRepository trackRepository) {
         this.trackRepository = trackRepository;
     }
 
-    public void createUsers(Track track) {
+    @Override
+    public void saveTrack(Track track) {
         trackRepository.save(track);
     }
 
+    @Override
     public List<Track> findAll() {
         return (List<Track>) trackRepository.findAll();
     }
 
-    public List<Track> findAllByName(String name){
-        return trackRepository.findAllByName(name);
+    @Override
+    public Track findById(int Id){
+        return trackRepository.findById(Id).orElse(null);
     }
 
-    public List<Track> findAllById(UUID Id){
-        return trackRepository.findAllById(Id);
+    @Override
+    public void deleteById(int id) {
+        trackRepository.deleteById(id);
     }
 
-    public List<Track> findAllByData_load(LocalDate data_load){
-        return trackRepository.findAllByData_load(data_load);
-    }
-
-    public List<Track> findAllByDuration(LocalTime duration){
-        return trackRepository.findAllByDuration(duration);
+    @Override
+    public void updateTrack(int id, Track track) {
+        Track trackToBD = trackRepository.findById(id).get();
+        trackToBD.setName(track.getName());
+        trackToBD.setText(track.getText());
+        trackToBD.setGenre_id(track.getGenre_id());
+        trackToBD.setFile_name(track.getFile_name());
+        trackToBD.setDuration(track.getDuration());
+        trackToBD.setData_load(track.getData_load());
+        trackRepository.save(trackToBD);
     }
 }

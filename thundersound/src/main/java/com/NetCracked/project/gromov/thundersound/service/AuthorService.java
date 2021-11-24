@@ -2,39 +2,47 @@ package com.NetCracked.project.gromov.thundersound.service;
 
 import com.NetCracked.project.gromov.thundersound.entity.Author;
 import com.NetCracked.project.gromov.thundersound.repository.AuthorRepository;
+import com.NetCracked.project.gromov.thundersound.serviceInterface.AuthorServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.UUID;
 
 @Service
-public class AuthorService {
+public class AuthorService implements AuthorServiceInterface {
 
-    @Autowired
     private final AuthorRepository authorRepository;
 
+    @Autowired
     public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 
-    public void Author(Author author) {
+    @Override
+    public void saveAuthor(Author author) {
         authorRepository.save(author);
     }
 
+    @Override
     public List<Author> findAll() {
         return (List<Author>) authorRepository.findAll();
     }
 
-    public List<Author> findAllByName(String name){
-        return authorRepository.findAllByName(name);
+    @Override
+    public Author findById(int Id){
+        return authorRepository.findById(Id).orElse(null);
     }
 
-    public List<Author> findAllById(UUID Id){
-        return authorRepository.findAllById(Id);
+    @Override
+    public void deleteById (int id) {
+        authorRepository.deleteById(id);
     }
 
-    public List<Author> findAllByGenre_id(UUID genreId){
-        return authorRepository.findAllByGenre_id(genreId);
+    @Override
+    public void updateAuthor(int id, Author author) {
+        Author authorToBD = authorRepository.findById(id).get();
+        authorToBD.setName(author.getName());
+        authorToBD.setDescription(author.getDescription());
+        authorToBD.setGenre_id(author.getGenre_id());
+        authorRepository.save(authorToBD);
     }
 }
