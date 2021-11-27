@@ -1,6 +1,8 @@
 package com.NetCracked.project.gromov.thundersound.entity;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "playlist")
@@ -13,8 +15,20 @@ public class Playlist {
     @Column(name = "name")
     private String name;
 
-    public Playlist(String name){
+    @ManyToMany(mappedBy = "track-playlist")
+    private List<Track> track_Playlist;
+
+    public List<Track> getTrack_Playlist() {
+        return track_Playlist;
+    }
+
+    public void setTrack_Playlist(List<Track> track) {
+        this.track_Playlist = track;
+    }
+
+    public Playlist(String name, int user_id){
         this.name = name;
+        this.user_id = user_id;
     }
     public Playlist(){
 
@@ -38,4 +52,6 @@ public class Playlist {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

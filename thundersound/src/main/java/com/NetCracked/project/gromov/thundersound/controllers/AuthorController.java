@@ -3,6 +3,8 @@ package com.NetCracked.project.gromov.thundersound.controllers;
 import com.NetCracked.project.gromov.thundersound.entity.Author;
 import com.NetCracked.project.gromov.thundersound.serviceInterface.AuthorServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,27 +22,27 @@ public class AuthorController {
     }
 
     @GetMapping("")
-    public List<Author> getAuthor() {
+    public ResponseEntity<List<Author>> getAuthors() {
         return authorService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Author getAuthor(@PathVariable("id") int id) {
+    public ResponseEntity<Author> getAuthor(@PathVariable("id") int id) {
         return authorService.findById(id);
     }
 
     @PostMapping("")
-    public void addAuthor(@RequestBody Author author){
-        authorService.saveAuthor(author);
+    public ResponseEntity<Author> addAuthor(@RequestBody Author author){
+        return authorService.saveAuthor(author);
     }
 
     @PutMapping("/update/{id}")
-    public void updateAuthor(@PathVariable(value = "id") int id, @RequestBody Author author) {
-        authorService.updateAuthor(id, author);
+    public ResponseEntity<Author> updateAuthor(@PathVariable(value = "id") int id, @RequestBody Author author) {
+        return authorService.updateAuthor(id, author);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteAuthor(@PathVariable(value = "id") int id) {
-        authorService.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteAuthor(@PathVariable(value = "id") int id) {
+        return authorService.deleteById(id);
     }
 }

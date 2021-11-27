@@ -1,18 +1,21 @@
 package com.NetCracked.project.gromov.thundersound.serviceInterface;
 
 import com.NetCracked.project.gromov.thundersound.entity.Author;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface AuthorServiceInterface {
 
-    void saveAuthor(Author author);
+    ResponseEntity<Author> saveAuthor(Author author);
 
-    List<Author> findAll();
+    ResponseEntity<List<Author>> findAll();
 
-    Author findById(int Id);
+    ResponseEntity<Author> findById(int Id);
 
-    void deleteById (int id);
+    ResponseEntity<HttpStatus> deleteById (int id);
 
-    void updateAuthor(int id, Author author);
+    ResponseEntity<Author> updateAuthor(int id, Author author);
 
 }

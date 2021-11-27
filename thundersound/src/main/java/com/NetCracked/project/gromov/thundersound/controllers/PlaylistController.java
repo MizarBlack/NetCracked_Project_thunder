@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -24,29 +21,27 @@ public class PlaylistController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Playlist>> getAllPlaylist() {
-        List<Playlist> playlists = playlistService.findAll();
-        return new ResponseEntity<>(playlists, HttpStatus.OK);
+    public ResponseEntity<List<Playlist>> getPlaylists(@RequestParam(required = false) String name) {
+        return playlistService.findAll(name);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Playlist> getPlaylist(@PathVariable("id") int id) {
-//        ResponseEntity<Playlist> playlist = playlistService.findById(id);
-//        return new ResponseEntity<>(playlist, HttpStatus.OK);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Playlist> getPlaylist(@PathVariable("id") int id) {
+        return playlistService.findById(id);
+    }
 
     @PostMapping("")
-    public void addPlaylist(@RequestBody Playlist playlist){
-        playlistService.savePlaylist(playlist);
+    public ResponseEntity<Playlist> addPlaylist(@RequestBody Playlist playlist){
+        return playlistService.savePlaylist(playlist);
     }
 
     @PatchMapping("/update/{id}")
-    public void updateAlbum(@PathVariable(value = "id") int id, @RequestBody Playlist playlist) {
-        playlistService.updatePlaylist(id, playlist);
+    public ResponseEntity<Playlist> updatePlaylist(@PathVariable(value = "id") int id, @RequestBody Playlist playlist) {
+        return playlistService.updatePlaylist(id, playlist);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deletePlaylist(@PathVariable(value = "id") int id) {
-        playlistService.deleteById(id);
+    public ResponseEntity<HttpStatus> deletePlaylist(@PathVariable(value = "id") int id) {
+        return playlistService.deleteById(id);
     }
 }

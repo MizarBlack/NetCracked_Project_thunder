@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PlaylistRepository extends CrudRepository<Playlist, Integer> {
-    List<Playlist> findByNameContaining(String name);
+    List<Playlist> findAllByNameContaining(String name);
 }

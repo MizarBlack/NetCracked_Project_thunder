@@ -1,19 +1,21 @@
 package com.NetCracked.project.gromov.thundersound.serviceInterface;
 
 import com.NetCracked.project.gromov.thundersound.entity.Genre;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface genreServiceInterface {
 
-    void saveGenre(Genre genre);
+    ResponseEntity<Genre> saveGenre(Genre genre);
 
-    List<Genre> findAll();
+    ResponseEntity<List<Genre>> findAll();
 
-    Genre findById(int Id);
+    ResponseEntity<Genre> findById(int Id);
 
-    void deleteById(int id);
+    ResponseEntity<HttpStatus> deleteById(int id);
 
-    void updateGenre(int id, Genre genre);
+    ResponseEntity<Genre> updateGenre(int id, Genre genre);
 
 }

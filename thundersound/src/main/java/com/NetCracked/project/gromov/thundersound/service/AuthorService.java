@@ -4,8 +4,13 @@ import com.NetCracked.project.gromov.thundersound.entity.Author;
 import com.NetCracked.project.gromov.thundersound.repository.AuthorRepository;
 import com.NetCracked.project.gromov.thundersound.serviceInterface.AuthorServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorService implements AuthorServiceInterface {
@@ -18,31 +23,63 @@ public class AuthorService implements AuthorServiceInterface {
     }
 
     @Override
-    public void saveAuthor(Author author) {
-        authorRepository.save(author);
+    public ResponseEntity<Author> saveAuthor(Author author) {
+        try {
+            Author newAuthor = authorRepository
+                    .save(new Author(author.getName(), author.getDescription(), author.getGenre_id()));
+            return new ResponseEntity<>(newAuthor, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public List<Author> findAll() {
-        return (List<Author>) authorRepository.findAll();
+    public ResponseEntity<List<Author>> findAll() {
+        try {
+            List<Author> authors = new ArrayList<Author>();
+            authorRepository.findAll().forEach(authors::add);
+            if (authors.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(authors, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public Author findById(int Id){
-        return authorRepository.findById(Id).orElse(null);
+    public ResponseEntity<Author> findById(int Id){
+        Optional<Author> author = authorRepository.findById(Id);
+
+        if (author.isPresent()) {
+            return new ResponseEntity<>(author.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
-    public void deleteById (int id) {
-        authorRepository.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteById (int id) {
+        try {
+            authorRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public void updateAuthor(int id, Author author) {
-        Author authorToBD = authorRepository.findById(id).get();
-        authorToBD.setName(author.getName());
-        authorToBD.setDescription(author.getDescription());
-        authorToBD.setGenre_id(author.getGenre_id());
-        authorRepository.save(authorToBD);
+    public ResponseEntity<Author> updateAuthor(int id, Author author) {
+        Optional<Author> authorBD = authorRepository.findById(id);
+
+        if (authorBD.isPresent()) {
+            Author _author = authorBD.get();
+            _author.setName(author.getName());
+            _author.setDescription(author.getDescription());
+            _author.setGenre_id(author.getGenre_id());
+            return new ResponseEntity<>(authorRepository.save(_author), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

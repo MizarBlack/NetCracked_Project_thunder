@@ -1,22 +1,34 @@
 package com.NetCracked.project.gromov.thundersound.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "album")
 public class Album {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String description;
     @Column(name = "release_date")
-    private LocalDate release_date;
+    private String release_date;
 
-    public Album(String name, String description, LocalDate realise_data) {
+    @ManyToMany(mappedBy = "track-album")
+    private List<Track> track_Album;
+
+    public List<Track> getTrack_Album() {
+        return track_Album;
+    }
+
+    public void setTrack_Album(List<Track> track) {
+        this.track_Album = track;
+    }
+
+    public Album(String name, String description, String realise_data) {
         this.name = name;
         this.description = description;
         this.release_date = realise_data;
@@ -44,12 +56,15 @@ public class Album {
     public void setDescription(String description) {
         this.description = description;
     }
-    public LocalDate getRealise_data() {
+    public String getRealise_data() {
         return release_date;
     }
-    public void setRealise_data(LocalDate realise_data) {
+    public void setRealise_data(String realise_data) {
         this.release_date = realise_data;
     }
+
+
+
 
     @Override
     public String toString() {

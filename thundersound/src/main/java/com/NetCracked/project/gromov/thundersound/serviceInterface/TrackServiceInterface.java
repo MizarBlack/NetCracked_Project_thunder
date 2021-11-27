@@ -1,19 +1,23 @@
 package com.NetCracked.project.gromov.thundersound.serviceInterface;
 
 import com.NetCracked.project.gromov.thundersound.entity.Track;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface TrackServiceInterface {
 
-    void saveTrack(Track track);
+    ResponseEntity<Track> saveTrack(Track track);
 
-    List<Track> findAll();
+    ResponseEntity<List<Track>> findAll(String name);
 
-    Track findById(int Id);
+    ResponseEntity<Track> findById(int Id);
 
-    void deleteById(int id);
+    ResponseEntity<HttpStatus> deleteById(int id);
 
-    void updateTrack(int id, Track track);
+    ResponseEntity<Track> updateTrack(int id, Track track);
 
+    ResponseEntity<FileSystemResource> downloadTrack(int id);
 }

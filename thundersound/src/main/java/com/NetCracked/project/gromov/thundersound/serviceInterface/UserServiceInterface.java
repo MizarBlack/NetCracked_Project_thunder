@@ -1,19 +1,21 @@
 package com.NetCracked.project.gromov.thundersound.serviceInterface;
 
 import com.NetCracked.project.gromov.thundersound.entity.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface UserServiceInterface {
 
-    void saveUser(User user);
+    ResponseEntity<User> saveUser(User user);
 
-    List<User> findAll();
+    ResponseEntity<List<User>> findAll();
 
-    User findById (int Id);
+    ResponseEntity<User> findById (int Id);
 
-    void deleteById(int id);
+    ResponseEntity<HttpStatus> deleteById(int id);
 
-    void updateUser(int id, User user);
+    ResponseEntity<User> updateUser(int id, User user);
 
 }

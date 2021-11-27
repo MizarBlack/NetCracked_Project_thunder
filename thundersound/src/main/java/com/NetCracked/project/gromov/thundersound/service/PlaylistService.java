@@ -4,12 +4,11 @@ import com.NetCracked.project.gromov.thundersound.entity.Playlist;
 import com.NetCracked.project.gromov.thundersound.repository.PlaylistRepository;
 import com.NetCracked.project.gromov.thundersound.serviceInterface.PlaylistServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PlaylistService implements PlaylistServiceInterface {
@@ -22,40 +21,68 @@ public class PlaylistService implements PlaylistServiceInterface {
     }
 
     @Override
-    public void savePlaylist(Playlist playlist) {
-        playlistRepository.save(playlist);
+    public ResponseEntity<Playlist> savePlaylist(Playlist playlist) {
+        try {
+            Playlist newPlaylist = playlistRepository
+                    .save(new Playlist(playlist.getName(), playlist.getUser_id()));
+            return new ResponseEntity<>(newPlaylist, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public List<Playlist> findAll() {
-        return (List<Playlist>) playlistRepository.findAll();
+    public ResponseEntity<List<Playlist>> findAll(String name) {
+        try {
+            List<Playlist> playlists = new ArrayList<Playlist>();
+
+            if (name == null)
+                playlistRepository.findAll().forEach(playlists::add);
+            else
+                playlistRepository.findAllByNameContaining(name).forEach(playlists::add);
+
+            if (playlists.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(playlists, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
     public ResponseEntity<Playlist> findById(int Id) {
-        Playlist playlist = playlistRepository.findById(Id).get();
-        return ResponseEntity.ok(playlist);
+        Optional<Playlist> playlist = playlistRepository.findById(Id);
+
+        if (playlist.isPresent()) {
+            return new ResponseEntity<>(playlist.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
-    public ResponseEntity<Map<String, Boolean>> deleteById(int id) {
-        playlistRepository.deleteById(id);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<HttpStatus> deleteById(int id) {
+        try {
+            playlistRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
     public ResponseEntity<Playlist> updatePlaylist(int id, Playlist playlist) {
-        Playlist playlistToBD = playlistRepository.findById(id).get();
-        playlistToBD.setName(playlist.getName());
-        playlistToBD.setUser_id(playlist.getUser_id());
-        Playlist updatePlaylist = playlistRepository.save(playlistToBD);
-        return ResponseEntity.ok(updatePlaylist);
-    }
+        Optional<Playlist> playlistBD = playlistRepository.findById(id);
 
-    @Override
-    public List<Playlist> findByNameContaining(String name){
-        return playlistRepository.findByNameContaining(name);
+        if (playlistBD.isPresent()) {
+            Playlist _playlist = playlistBD.get();
+            _playlist.setName(playlist.getName());
+            _playlist.setUser_id(playlist.getUser_id());
+            return new ResponseEntity<>(playlistRepository.save(_playlist), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

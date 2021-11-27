@@ -3,6 +3,8 @@ package com.NetCracked.project.gromov.thundersound.controllers;
 import com.NetCracked.project.gromov.thundersound.entity.User;
 import com.NetCracked.project.gromov.thundersound.serviceInterface.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,27 +22,27 @@ public class UserController {
     }
 
     @GetMapping("")
-    public List<User> getUser() {
+    public ResponseEntity<List<User>> getUser() {
         return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable("id") int id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
         return userService.findById(id);
     }
 
     @PostMapping("")
-    public void addUser(@RequestBody User user){
-        userService.saveUser(user);
+    public ResponseEntity<User> addUser(@RequestBody User user){
+        return userService.saveUser(user);
     }
 
     @PatchMapping("/update/{id}")
-    public void updateUser(@PathVariable(value = "id") int id, @RequestBody User user) {
-        userService.updateUser(id, user);
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") int id, @RequestBody User user) {
+        return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable(value = "id") int id) {
-        userService.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable(value = "id") int id) {
+        return userService.deleteById(id);
     }
 }
