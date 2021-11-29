@@ -8,22 +8,24 @@ import java.util.Set;
 @Table(name = "playlist")
 public class Playlist {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column(name = "user_id")
+    @Column(name = "user_id", insertable=false, updatable = false)
     private int user_id;
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "track-playlist")
-    private List<Track> track_Playlist;
+    @ManyToOne (fetch = FetchType.EAGER, optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="user_id")
+    private User user;
 
-    public List<Track> getTrack_Playlist() {
-        return track_Playlist;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "playlist")
+    private List<Track> track;
+    public List<Track> getTrack() {
+        return track;
     }
-
-    public void setTrack_Playlist(List<Track> track) {
-        this.track_Playlist = track;
+    public void setTrack(List<Track> track) {
+        this.track = track;
     }
 
     public Playlist(String name, int user_id){

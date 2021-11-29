@@ -1,6 +1,7 @@
 package com.NetCracked.project.gromov.thundersound.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")

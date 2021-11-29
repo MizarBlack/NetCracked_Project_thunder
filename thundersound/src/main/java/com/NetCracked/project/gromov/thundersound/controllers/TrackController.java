@@ -4,7 +4,9 @@ import com.NetCracked.project.gromov.thundersound.entity.Track;
 import com.NetCracked.project.gromov.thundersound.serviceInterface.TrackServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,8 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/track")
+@RequestMapping(value = "/track")
+//@Procedure(MediaType.APPLICATION_JSON)
 public class TrackController {
 
     private final TrackServiceInterface trackService;

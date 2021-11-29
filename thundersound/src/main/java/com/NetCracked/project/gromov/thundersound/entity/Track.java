@@ -12,7 +12,7 @@ public class Track {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    @Column(name = "genre_id")
+    @Column(name = "genre_id", insertable=false, updatable = false)
     private int genre_id;
     @Column(name = "name")
     private String name;
@@ -26,46 +26,47 @@ public class Track {
     private LocalTime duration;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "track-album",
-            joinColumns = @JoinColumn(name = "album_id"),
-            inverseJoinColumns = @JoinColumn(name = "track_id")
+    @JoinTable(name = "track_album",
+            joinColumns = @JoinColumn(name = "track_id"),
+            inverseJoinColumns = @JoinColumn(name = "album_id")
     )
-    private Set<Track> track_Album;
+    private Set<Album> album;
+    public Set<Album> getAlbums() {
+        return album;
+    }
+    public void setAlbum(Set<Album> album) {
+        this.album = album;
+    }
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "track-author",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "track_id")
+    @JoinTable(name = "track_author",
+            joinColumns = @JoinColumn(name = "track_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
     )
-    private Set<Track> track_Author;
+    private Set<Author> author;
+    public Set<Author> getAuthor() {
+        return author;
+    }
+    public void setAuthor(Set<Author> author) {
+        this.author = author;
+    }
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "track-playlist",
-            joinColumns = @JoinColumn(name = "playlist_id"),
-            inverseJoinColumns = @JoinColumn(name = "track_id")
+    @JoinTable(name = "track_playlist",
+            joinColumns = @JoinColumn(name = "track_id"),
+            inverseJoinColumns = @JoinColumn(name = "playlist_id")
     )
-    private Set<Track> track_Playlist;
-
-    public Set<Track> getTrack_Album() {
-        return track_Album;
+    private Set<Playlist> playlist;
+    public Set<Playlist> getPlaylist() {
+        return playlist;
     }
-    public void setTrack_Album(Set<Track> track_Album) {
-        this.track_Album = track_Album;
-    }
-
-    public Set<Track> getTrack_Author() {
-        return track_Author;
-    }
-    public void setTrack_Author(Set<Track> track_Author) {
-        this.track_Author = track_Author;
+    public void setPlaylist(Set<Playlist> playlist) {
+        this.playlist = playlist;
     }
 
-    public Set<Track> getTrack_Playlist() {
-        return track_Playlist;
-    }
-    public void setTrack_Playlist(Set<Track> track_Playlist) {
-        this.track_Playlist = track_Playlist;
-    }
+    @ManyToOne (fetch = FetchType.EAGER, optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="genre_id")
+    private Genre genre;
 
     public Track(String name, String text, String file_name, LocalDate data_load, LocalTime duration, int genre_id) {
         this.name = name;

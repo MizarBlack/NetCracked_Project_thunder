@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -21,7 +22,7 @@ public class PlaylistService implements PlaylistServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Playlist> savePlaylist(Playlist playlist) {
+    public ResponseEntity<Playlist> savePlaylist(@RequestParam Playlist playlist) {
         try {
             Playlist newPlaylist = playlistRepository
                     .save(new Playlist(playlist.getName(), playlist.getUser_id()));

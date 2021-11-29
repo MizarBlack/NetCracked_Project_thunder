@@ -10,22 +10,24 @@ public class Author {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    @Column(name = "genre_id")
+    @Column(name = "genre_id", insertable=false, updatable = false)
     private int genre_id;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "track-author")
-    private List<Track> track_Author;
+    @ManyToOne (fetch = FetchType.EAGER, optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="genre_id")
+    private Genre genre;
 
+    @ManyToMany(mappedBy = "author")
+    private List<Track> author;
     public List<Track> getTrack_Author() {
-        return track_Author;
+        return author;
     }
-
-    public void setTrack_Author(List<Track> track) {
-        this.track_Author = track;
+    public void setTrack(List<Track> track) {
+        this.author = track;
     }
 
     public Author(String name, String description, int genre_id) {

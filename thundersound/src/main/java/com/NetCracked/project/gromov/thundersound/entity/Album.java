@@ -17,15 +17,13 @@ public class Album {
     @Column(name = "release_date")
     private String release_date;
 
-    @ManyToMany(mappedBy = "track-album")
-    private List<Track> track_Album;
-
-    public List<Track> getTrack_Album() {
-        return track_Album;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "album")
+    private List<Track> tracks;
+    public List<Track> getTracks() {
+        return tracks;
     }
-
-    public void setTrack_Album(List<Track> track) {
-        this.track_Album = track;
+    public void setTracks(List<Track> track) {
+        this.tracks = track;
     }
 
     public Album(String name, String description, String realise_data) {
