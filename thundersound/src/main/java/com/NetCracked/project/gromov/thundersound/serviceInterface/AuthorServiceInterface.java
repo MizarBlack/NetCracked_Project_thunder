@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface AuthorServiceInterface {
 
@@ -12,10 +13,10 @@ public interface AuthorServiceInterface {
 
     ResponseEntity<List<Author>> findAll();
 
-    ResponseEntity<Author> findById(int Id);
+    ResponseEntity<Author> findById(UUID Id);
 
-    ResponseEntity<HttpStatus> deleteById (int id);
+    ResponseEntity<HttpStatus> deleteById (UUID id);
 
-    ResponseEntity<Author> updateAuthor(int id, Author author);
+    ResponseEntity<Author> updateAuthor(UUID id, Author author);
 
 }

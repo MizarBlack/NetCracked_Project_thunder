@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AlbumService implements AlbumServiceInterface {
@@ -55,7 +56,7 @@ public class AlbumService implements AlbumServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Album> findById(int Id) {
+    public ResponseEntity<Album> findById(UUID Id) {
         Optional<Album> album = albumRepository.findById(Id);
 
         if (album.isPresent()) {
@@ -66,7 +67,7 @@ public class AlbumService implements AlbumServiceInterface {
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteById(int Id) {
+    public ResponseEntity<HttpStatus> deleteById(UUID Id) {
         try {
             albumRepository.deleteById(Id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -76,7 +77,7 @@ public class AlbumService implements AlbumServiceInterface {
    }
 
     @Override
-    public ResponseEntity<Album> updateAlbum(int id, Album album) {
+    public ResponseEntity<Album> updateAlbum(UUID id, Album album) {
         Optional<Album> albumBD = albumRepository.findById(id);
 
         if (albumBD.isPresent()) {

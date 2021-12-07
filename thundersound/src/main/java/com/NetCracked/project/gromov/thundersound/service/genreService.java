@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class GenreService implements genreServiceInterface {
@@ -48,7 +49,7 @@ public class GenreService implements genreServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Genre> findById(int Id) {
+    public ResponseEntity<Genre> findById(UUID Id) {
         Optional<Genre> genre = genreRepository.findById(Id);
 
         if (genre.isPresent()) {
@@ -59,7 +60,7 @@ public class GenreService implements genreServiceInterface {
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteById(int id) {
+    public ResponseEntity<HttpStatus> deleteById(UUID id) {
         try {
             genreRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -69,7 +70,7 @@ public class GenreService implements genreServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Genre> updateGenre(int id, Genre genre) {
+    public ResponseEntity<Genre> updateGenre(UUID id, Genre genre) {
         Optional<Genre> genreBD = genreRepository.findById(id);
 
         if (genreBD.isPresent()) {

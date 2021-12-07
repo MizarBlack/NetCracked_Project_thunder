@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.UUID;
 
 
 @Service
@@ -59,7 +59,7 @@ public class TrackService implements TrackServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Track> findById(int Id){
+    public ResponseEntity<Track> findById(UUID Id){
         Optional<Track> track = trackRepository.findById(Id);
 
         if (track.isPresent()) {
@@ -70,7 +70,7 @@ public class TrackService implements TrackServiceInterface {
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteById(int id) {
+    public ResponseEntity<HttpStatus> deleteById(UUID id) {
         try {
             trackRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -80,7 +80,7 @@ public class TrackService implements TrackServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Track> updateTrack(int id, Track track) {
+    public ResponseEntity<Track> updateTrack(UUID id, Track track) {
         Optional<Track> trackBD = trackRepository.findById(id);
 
         if (trackBD.isPresent()) {
@@ -99,7 +99,7 @@ public class TrackService implements TrackServiceInterface {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public ResponseEntity<FileSystemResource> downloadTrack(int id){
+    public ResponseEntity<FileSystemResource> downloadTrack(UUID id){
         Track track = trackRepository.findTrackById(id);
         File savedTrack = new File(path, track.getFile_name());
 

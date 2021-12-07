@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface genreServiceInterface {
 
@@ -12,10 +13,10 @@ public interface genreServiceInterface {
 
     ResponseEntity<List<Genre>> findAll();
 
-    ResponseEntity<Genre> findById(int Id);
+    ResponseEntity<Genre> findById(UUID Id);
 
-    ResponseEntity<HttpStatus> deleteById(int id);
+    ResponseEntity<HttpStatus> deleteById(UUID id);
 
-    ResponseEntity<Genre> updateGenre(int id, Genre genre);
+    ResponseEntity<Genre> updateGenre(UUID id, Genre genre);
 
 }

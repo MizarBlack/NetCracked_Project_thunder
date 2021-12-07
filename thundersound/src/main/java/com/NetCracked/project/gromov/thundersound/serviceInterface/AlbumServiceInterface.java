@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface AlbumServiceInterface {
 
@@ -12,10 +13,10 @@ public interface AlbumServiceInterface {
 
     ResponseEntity<List<Album>> findAll(String name);
 
-    ResponseEntity<Album> findById(int Id);
+    ResponseEntity<Album> findById(UUID Id);
 
-    ResponseEntity<HttpStatus> deleteById(int Id);
+    ResponseEntity<HttpStatus> deleteById(UUID Id);
 
-    ResponseEntity<Album> updateAlbum(int id, Album album);
+    ResponseEntity<Album> updateAlbum(UUID id, Album album);
 
 }

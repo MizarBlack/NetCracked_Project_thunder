@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthorService implements AuthorServiceInterface {
@@ -48,7 +49,7 @@ public class AuthorService implements AuthorServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Author> findById(int Id){
+    public ResponseEntity<Author> findById(UUID Id){
         Optional<Author> author = authorRepository.findById(Id);
 
         if (author.isPresent()) {
@@ -59,7 +60,7 @@ public class AuthorService implements AuthorServiceInterface {
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteById (int id) {
+    public ResponseEntity<HttpStatus> deleteById (UUID id) {
         try {
             authorRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -69,7 +70,7 @@ public class AuthorService implements AuthorServiceInterface {
     }
 
     @Override
-    public ResponseEntity<Author> updateAuthor(int id, Author author) {
+    public ResponseEntity<Author> updateAuthor(UUID id, Author author) {
         Optional<Author> authorBD = authorRepository.findById(id);
 
         if (authorBD.isPresent()) {

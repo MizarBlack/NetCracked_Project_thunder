@@ -4,6 +4,7 @@ import com.NetCracked.project.gromov.thundersound.entity.User;
 import com.NetCracked.project.gromov.thundersound.serviceInterface.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<User>> getUser() {
         return userService.findAll();
     }

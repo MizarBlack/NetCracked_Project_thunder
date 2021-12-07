@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,7 +28,7 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Album> getAlbum(@PathVariable("id") int id) {
+    public ResponseEntity<Album> getAlbum(@PathVariable("id") UUID id) {
         return albumService.findById(id);
     }
 
@@ -37,12 +38,12 @@ public class AlbumController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Album> updateAlbum(@PathVariable(value = "id") int id, @RequestBody Album album) {
+    public ResponseEntity<Album> updateAlbum(@PathVariable(value = "id") UUID id, @RequestBody Album album) {
         return albumService.updateAlbum(id, album);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteAlbum(@PathVariable(value = "id") int id) {
+    public ResponseEntity<HttpStatus> deleteAlbum(@PathVariable(value = "id") UUID id) {
         return albumService.deleteById(id);
     }
 }

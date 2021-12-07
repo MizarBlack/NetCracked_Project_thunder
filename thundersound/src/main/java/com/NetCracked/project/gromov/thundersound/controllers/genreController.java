@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,7 +28,7 @@ public class GenreController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Genre> getGenre(@PathVariable("id") int id) {
+    public ResponseEntity<Genre> getGenre(@PathVariable("id") UUID id) {
         return genreService.findById(id);
     }
 
@@ -37,12 +38,12 @@ public class GenreController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Genre> updateGenre(@PathVariable(value = "id") int id, @RequestBody Genre genre) {
+    public ResponseEntity<Genre> updateGenre(@PathVariable(value = "id") UUID id, @RequestBody Genre genre) {
         return genreService.updateGenre(id, genre);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteGenre(@PathVariable(value = "id") int id) {
+    public ResponseEntity<HttpStatus> deleteGenre(@PathVariable(value = "id") UUID id) {
         return genreService.deleteById(id);
     }
 }

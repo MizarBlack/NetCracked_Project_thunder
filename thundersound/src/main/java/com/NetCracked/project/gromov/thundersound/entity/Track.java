@@ -1,19 +1,27 @@
 package com.NetCracked.project.gromov.thundersound.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "track")
 public class Track {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
     @Column(name = "genre_id", insertable=false, updatable = false)
-    private int genre_id;
+    private UUID genre_id;
     @Column(name = "name")
     private String name;
     @Column(name = "text")
@@ -31,6 +39,11 @@ public class Track {
             inverseJoinColumns = @JoinColumn(name = "album_id")
     )
     private Set<Album> album;
+
+    public Track() {
+
+    }
+
     public Set<Album> getAlbums() {
         return album;
     }
@@ -68,7 +81,7 @@ public class Track {
     @JoinColumn (name="genre_id")
     private Genre genre;
 
-    public Track(String name, String text, String file_name, LocalDate data_load, LocalTime duration, int genre_id) {
+    public Track(String name, String text, String file_name, LocalDate data_load, LocalTime duration, UUID genre_id) {
         this.name = name;
         this.text = text;
         this.file_name = file_name;
@@ -76,19 +89,17 @@ public class Track {
         this.duration = duration;
         this.genre_id = genre_id;
     }
-    public Track() {
-    }
 
-    public int getGenre_id() {
+    public UUID getGenre_id() {
         return genre_id;
     }
-    public void setGenre_id(int genre_id) {
+    public void setGenre_id(UUID genre_id) {
         this.genre_id = genre_id;
     }
-    public int getId() {
+    public UUID getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
     public String getName() {

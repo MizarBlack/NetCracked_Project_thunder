@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,7 +28,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthor(@PathVariable("id") int id) {
+    public ResponseEntity<Author> getAuthor(@PathVariable("id") UUID id) {
         return authorService.findById(id);
     }
 
@@ -37,12 +38,12 @@ public class AuthorController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Author> updateAuthor(@PathVariable(value = "id") int id, @RequestBody Author author) {
+    public ResponseEntity<Author> updateAuthor(@PathVariable(value = "id") UUID id, @RequestBody Author author) {
         return authorService.updateAuthor(id, author);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteAuthor(@PathVariable(value = "id") int id) {
+    public ResponseEntity<HttpStatus> deleteAuthor(@PathVariable(value = "id") UUID id) {
         return authorService.deleteById(id);
     }
 }

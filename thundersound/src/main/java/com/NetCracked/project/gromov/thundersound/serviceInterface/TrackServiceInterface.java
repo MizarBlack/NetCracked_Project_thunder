@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface TrackServiceInterface {
 
@@ -13,11 +14,11 @@ public interface TrackServiceInterface {
 
     ResponseEntity<List<Track>> findAll(String name);
 
-    ResponseEntity<Track> findById(int Id);
+    ResponseEntity<Track> findById(UUID Id);
 
-    ResponseEntity<HttpStatus> deleteById(int id);
+    ResponseEntity<HttpStatus> deleteById(UUID id);
 
-    ResponseEntity<Track> updateTrack(int id, Track track);
+    ResponseEntity<Track> updateTrack(UUID id, Track track);
 
-    ResponseEntity<FileSystemResource> downloadTrack(int id);
+    ResponseEntity<FileSystemResource> downloadTrack(UUID id);
 }

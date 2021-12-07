@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.UUID;
 
-public interface AuthorRepository extends CrudRepository<Author, Integer> {
+public interface AuthorRepository extends CrudRepository<Author, UUID> {
 
 }
