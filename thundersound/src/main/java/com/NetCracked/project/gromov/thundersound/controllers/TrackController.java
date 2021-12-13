@@ -4,21 +4,17 @@ import com.NetCracked.project.gromov.thundersound.entity.Track;
 import com.NetCracked.project.gromov.thundersound.serviceInterface.TrackServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "/track")
-//@Procedure(MediaType.APPLICATION_JSON)
 public class TrackController {
 
     private final TrackServiceInterface trackService;
@@ -29,7 +25,7 @@ public class TrackController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Track>> getTracks(String name) {
+    public ResponseEntity<List<Track>> getTracks(@RequestParam(required = false) String name) {
         return trackService.findAll(name);
     }
 
@@ -39,7 +35,7 @@ public class TrackController {
     }
 
     @GetMapping(value = "/{id}/download", produces = "audio/mpeg")
-    public ResponseEntity<FileSystemResource> downloadTrack(@PathVariable("id") UUID id) throws FileNotFoundException, MalformedURLException {
+    public ResponseEntity<FileSystemResource> downloadTrack(@PathVariable("id") UUID id) {
         return trackService.downloadTrack(id);
     }
 
@@ -57,4 +53,16 @@ public class TrackController {
     public ResponseEntity<HttpStatus> deleteTrack(@PathVariable(value = "id") UUID id) {
         return trackService.deleteById(id);
     }
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<Track> uploadTrack(@RequestParam("file")MultipartFile file) {
+            trackService.save(file);
+            String fileName = file.getOriginalFilename();
+            Track track = new Track(fileName, fileName);
+            System.out.println(track.getFile_name());
+            return trackService.saveFileTrack(track);
+
+    }
+
 }

@@ -3,7 +3,6 @@ package com.NetCracked.project.gromov.thundersound.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.UUID;
 
 @Entity

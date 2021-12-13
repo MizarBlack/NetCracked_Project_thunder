@@ -5,7 +5,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -88,6 +87,11 @@ public class Track {
         this.data_load = data_load;
         this.duration = duration;
         this.genre_id = genre_id;
+    }
+
+    public Track(String name, String file_name ) {
+        this.name = name;
+        this.file_name = file_name;
     }
 
     public UUID getGenre_id() {
